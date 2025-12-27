@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import { APIError } from "./api-error";
 import type { Controller } from "./controller";
 
 export class App {
@@ -13,11 +12,10 @@ export class App {
 
   private setupErrors() {
     this.instance.onError((error, c) => {
-      console.error(`[error]: ${error.message}`);
-      if (error instanceof APIError) {
-        return c.json({ success: false, errors: error.fields || { server: [error.message] } });
-      }
-      return c.json({ success: false, errors: { server: "Internal server error" } });
+      return c.json({
+        success: false,
+        errors: { server: error.message || "Internal server error" },
+      });
     });
   }
 
