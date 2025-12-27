@@ -1,9 +1,12 @@
 import { serve } from "bun";
-import { Hono } from "hono";
+import { App } from "./core/app";
+import { CatsController } from "./modules/cats/controller";
 
-const app = new Hono();
+const app = new App([
+  new CatsController(), // everything cat-related!
+]);
 
 serve({
   port: 3000,
-  fetch: app.fetch,
+  fetch: app.instance.fetch,
 });
