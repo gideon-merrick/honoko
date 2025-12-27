@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { APIError } from "../../core/api-error";
 import { Controller } from "../../core/controller";
 import { CatsService } from "./service";
 
