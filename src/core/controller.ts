@@ -6,12 +6,12 @@ export abstract class Controller {
   public router = new Hono();
   public abstract path: string;
 
-  constructor() {
-    process.nextTick(() => this.mount());
-  }
-
   protected ok(c: Context, data: unknown) {
     return c.json({ success: true, data: data });
+  }
+
+  protected fail(c: Context, fields: Record<string, string[]>) {
+    return c.json({ success: false, errors: fields });
   }
 
   protected createValidator<T extends z.ZodType>(schema: T) {
@@ -23,5 +23,5 @@ export abstract class Controller {
     });
   }
 
-  protected abstract mount(): void;
+  public abstract mount(): void;
 }

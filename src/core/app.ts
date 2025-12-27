@@ -23,6 +23,7 @@ export class App {
 
   private mount(controllers: Controller[]) {
     controllers.forEach((controller) => {
+      controller.mount();
       this.instance.route(controller.path, controller.router);
     });
   }
