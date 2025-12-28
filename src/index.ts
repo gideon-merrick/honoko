@@ -1,9 +1,11 @@
 import { serve } from "bun";
 import { App } from "./core/app";
+import { AuthController } from "./modules/auth/controller";
 import { CatsController } from "./modules/cats/controller";
 
 const app = new App([
   new CatsController(), // everything cat-related!
+  new AuthController(), // auth
 ]);
 
 serve({

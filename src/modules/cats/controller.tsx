@@ -5,6 +5,7 @@ import { CatsService } from "./service";
 export class CatsController extends Controller {
   public path = "/cats";
   private service = new CatsService();
+  private authMiddleware = this.createAuthMiddleware();
 
   public schemas = {
     create: z.object({
@@ -22,7 +23,7 @@ export class CatsController extends Controller {
       const result = await this.service.getAll();
       return this.ok(c, result);
     });
-    this.router.get("/:id", async (c) => {
+    this.router.get("/:id", this.authMiddleware, async (c) => {
       const id = c.req.param("id");
       const result = await this.service.getOne(id);
       return this.ok(c, result);
