@@ -2,12 +2,12 @@ import { zValidator } from "@hono/zod-validator";
 import { type Context, Hono } from "hono";
 import { createMiddleware } from "hono/factory";
 import { sign, verify } from "hono/jwt";
-import type { Variables } from "hono/types";
 import type { JWTPayload } from "hono/utils/jwt/types";
 import { z } from "zod";
+import type { AppVariables } from "../types";
 
 export abstract class Controller {
-  public router = new Hono<{ Variables: Variables }>();
+  public router = new Hono<{ Variables: AppVariables }>();
   public abstract path: string;
 
   protected ok(c: Context, data: unknown) {
@@ -28,7 +28,7 @@ export abstract class Controller {
   }
 
   protected createAuthMiddleware() {
-    return createMiddleware<{ Variables: Variables }>(async (c, next) => {
+    return createMiddleware<{ Variables: AppVariables }>(async (c, next) => {
       const authHeader = c.req.header("Authorization");
       if (!authHeader) return this.fail(c, { auth: ["Authorization header missing"] });
       const token = authHeader.replace("Bearer ", "");
