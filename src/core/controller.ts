@@ -4,7 +4,7 @@ import { createMiddleware } from "hono/factory";
 import { sign, verify } from "hono/jwt";
 import type { JWTPayload } from "hono/utils/jwt/types";
 import { z } from "zod";
-import type { AppVariables } from "../types";
+import type { AppVariables, UserPayload } from "../types";
 
 export abstract class Controller {
   public router = new Hono<{ Variables: AppVariables }>();
@@ -35,7 +35,7 @@ export abstract class Controller {
       if (!token) return this.fail(c, { auth: ["Token missing"] });
       try {
         const payload = await verify(token, String(process.env.JWT_SECRET));
-        c.set("user", payload);
+        c.set("user", payload as UserPayload);
         await next();
       } catch {
         return this.fail(c, { auth: ["Invalid or expired token"] });
