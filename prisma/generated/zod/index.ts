@@ -61,16 +61,12 @@ export const CatSelectSchema: z.ZodType<Prisma.CatSelect> = z
 /////////////////////////////////////////
 
 export const CatWhereInputSchema: z.ZodType<Prisma.CatWhereInput> = z.strictObject({
-  AND: z
-    .union([z.lazy(() => CatWhereInputSchema), z.lazy(() => CatWhereInputSchema).array()])
-    .optional(),
+  AND: z.union([z.lazy(() => CatWhereInputSchema), z.lazy(() => CatWhereInputSchema).array()]).optional(),
   OR: z
     .lazy(() => CatWhereInputSchema)
     .array()
     .optional(),
-  NOT: z
-    .union([z.lazy(() => CatWhereInputSchema), z.lazy(() => CatWhereInputSchema).array()])
-    .optional(),
+  NOT: z.union([z.lazy(() => CatWhereInputSchema), z.lazy(() => CatWhereInputSchema).array()]).optional(),
   id: z.union([z.lazy(() => StringFilterSchema), z.string()]).optional(),
   name: z.union([z.lazy(() => StringFilterSchema), z.string()]).optional(),
   age: z.union([z.lazy(() => IntFilterSchema), z.number()]).optional(),
@@ -78,14 +74,13 @@ export const CatWhereInputSchema: z.ZodType<Prisma.CatWhereInput> = z.strictObje
   updatedAt: z.union([z.lazy(() => DateTimeFilterSchema), z.coerce.date()]).optional(),
 });
 
-export const CatOrderByWithRelationInputSchema: z.ZodType<Prisma.CatOrderByWithRelationInput> =
-  z.strictObject({
-    id: z.lazy(() => SortOrderSchema).optional(),
-    name: z.lazy(() => SortOrderSchema).optional(),
-    age: z.lazy(() => SortOrderSchema).optional(),
-    createdAt: z.lazy(() => SortOrderSchema).optional(),
-    updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  });
+export const CatOrderByWithRelationInputSchema: z.ZodType<Prisma.CatOrderByWithRelationInput> = z.strictObject({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  age: z.lazy(() => SortOrderSchema).optional(),
+  createdAt: z.lazy(() => SortOrderSchema).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+});
 
 export const CatWhereUniqueInputSchema: z.ZodType<Prisma.CatWhereUniqueInput> = z
   .object({
@@ -94,16 +89,12 @@ export const CatWhereUniqueInputSchema: z.ZodType<Prisma.CatWhereUniqueInput> = 
   .and(
     z.strictObject({
       id: z.cuid().optional(),
-      AND: z
-        .union([z.lazy(() => CatWhereInputSchema), z.lazy(() => CatWhereInputSchema).array()])
-        .optional(),
+      AND: z.union([z.lazy(() => CatWhereInputSchema), z.lazy(() => CatWhereInputSchema).array()]).optional(),
       OR: z
         .lazy(() => CatWhereInputSchema)
         .array()
         .optional(),
-      NOT: z
-        .union([z.lazy(() => CatWhereInputSchema), z.lazy(() => CatWhereInputSchema).array()])
-        .optional(),
+      NOT: z.union([z.lazy(() => CatWhereInputSchema), z.lazy(() => CatWhereInputSchema).array()]).optional(),
       name: z.union([z.lazy(() => StringFilterSchema), z.string()]).optional(),
       age: z.union([z.lazy(() => IntFilterSchema), z.number().int()]).optional(),
       createdAt: z.union([z.lazy(() => DateTimeFilterSchema), z.coerce.date()]).optional(),
@@ -111,19 +102,18 @@ export const CatWhereUniqueInputSchema: z.ZodType<Prisma.CatWhereUniqueInput> = 
     }),
   );
 
-export const CatOrderByWithAggregationInputSchema: z.ZodType<Prisma.CatOrderByWithAggregationInput> =
-  z.strictObject({
-    id: z.lazy(() => SortOrderSchema).optional(),
-    name: z.lazy(() => SortOrderSchema).optional(),
-    age: z.lazy(() => SortOrderSchema).optional(),
-    createdAt: z.lazy(() => SortOrderSchema).optional(),
-    updatedAt: z.lazy(() => SortOrderSchema).optional(),
-    _count: z.lazy(() => CatCountOrderByAggregateInputSchema).optional(),
-    _avg: z.lazy(() => CatAvgOrderByAggregateInputSchema).optional(),
-    _max: z.lazy(() => CatMaxOrderByAggregateInputSchema).optional(),
-    _min: z.lazy(() => CatMinOrderByAggregateInputSchema).optional(),
-    _sum: z.lazy(() => CatSumOrderByAggregateInputSchema).optional(),
-  });
+export const CatOrderByWithAggregationInputSchema: z.ZodType<Prisma.CatOrderByWithAggregationInput> = z.strictObject({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  age: z.lazy(() => SortOrderSchema).optional(),
+  createdAt: z.lazy(() => SortOrderSchema).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+  _count: z.lazy(() => CatCountOrderByAggregateInputSchema).optional(),
+  _avg: z.lazy(() => CatAvgOrderByAggregateInputSchema).optional(),
+  _max: z.lazy(() => CatMaxOrderByAggregateInputSchema).optional(),
+  _min: z.lazy(() => CatMinOrderByAggregateInputSchema).optional(),
+  _sum: z.lazy(() => CatSumOrderByAggregateInputSchema).optional(),
+});
 
 export const CatScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.CatScalarWhereWithAggregatesInput> =
   z.strictObject({
@@ -146,12 +136,8 @@ export const CatScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.CatScalar
     id: z.union([z.lazy(() => StringWithAggregatesFilterSchema), z.string()]).optional(),
     name: z.union([z.lazy(() => StringWithAggregatesFilterSchema), z.string()]).optional(),
     age: z.union([z.lazy(() => IntWithAggregatesFilterSchema), z.number()]).optional(),
-    createdAt: z
-      .union([z.lazy(() => DateTimeWithAggregatesFilterSchema), z.coerce.date()])
-      .optional(),
-    updatedAt: z
-      .union([z.lazy(() => DateTimeWithAggregatesFilterSchema), z.coerce.date()])
-      .optional(),
+    createdAt: z.union([z.lazy(() => DateTimeWithAggregatesFilterSchema), z.coerce.date()]).optional(),
+    updatedAt: z.union([z.lazy(() => DateTimeWithAggregatesFilterSchema), z.coerce.date()]).optional(),
   });
 
 export const CatCreateInputSchema: z.ZodType<Prisma.CatCreateInput> = z.strictObject({
@@ -162,39 +148,29 @@ export const CatCreateInputSchema: z.ZodType<Prisma.CatCreateInput> = z.strictOb
   updatedAt: z.coerce.date().optional(),
 });
 
-export const CatUncheckedCreateInputSchema: z.ZodType<Prisma.CatUncheckedCreateInput> =
-  z.strictObject({
-    id: z.cuid().optional(),
-    name: z.string(),
-    age: z.number().int(),
-    createdAt: z.coerce.date().optional(),
-    updatedAt: z.coerce.date().optional(),
-  });
+export const CatUncheckedCreateInputSchema: z.ZodType<Prisma.CatUncheckedCreateInput> = z.strictObject({
+  id: z.cuid().optional(),
+  name: z.string(),
+  age: z.number().int(),
+  createdAt: z.coerce.date().optional(),
+  updatedAt: z.coerce.date().optional(),
+});
 
 export const CatUpdateInputSchema: z.ZodType<Prisma.CatUpdateInput> = z.strictObject({
   id: z.union([z.cuid(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
   name: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
   age: z.union([z.number().int(), z.lazy(() => IntFieldUpdateOperationsInputSchema)]).optional(),
-  createdAt: z
-    .union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)])
-    .optional(),
-  updatedAt: z
-    .union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)])
-    .optional(),
+  createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)]).optional(),
+  updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)]).optional(),
 });
 
-export const CatUncheckedUpdateInputSchema: z.ZodType<Prisma.CatUncheckedUpdateInput> =
-  z.strictObject({
-    id: z.union([z.cuid(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
-    name: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
-    age: z.union([z.number().int(), z.lazy(() => IntFieldUpdateOperationsInputSchema)]).optional(),
-    createdAt: z
-      .union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)])
-      .optional(),
-    updatedAt: z
-      .union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)])
-      .optional(),
-  });
+export const CatUncheckedUpdateInputSchema: z.ZodType<Prisma.CatUncheckedUpdateInput> = z.strictObject({
+  id: z.union([z.cuid(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
+  name: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
+  age: z.union([z.number().int(), z.lazy(() => IntFieldUpdateOperationsInputSchema)]).optional(),
+  createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)]).optional(),
+  updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)]).optional(),
+});
 
 export const CatCreateManyInputSchema: z.ZodType<Prisma.CatCreateManyInput> = z.strictObject({
   id: z.cuid().optional(),
@@ -204,31 +180,21 @@ export const CatCreateManyInputSchema: z.ZodType<Prisma.CatCreateManyInput> = z.
   updatedAt: z.coerce.date().optional(),
 });
 
-export const CatUpdateManyMutationInputSchema: z.ZodType<Prisma.CatUpdateManyMutationInput> =
-  z.strictObject({
-    id: z.union([z.cuid(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
-    name: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
-    age: z.union([z.number().int(), z.lazy(() => IntFieldUpdateOperationsInputSchema)]).optional(),
-    createdAt: z
-      .union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)])
-      .optional(),
-    updatedAt: z
-      .union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)])
-      .optional(),
-  });
+export const CatUpdateManyMutationInputSchema: z.ZodType<Prisma.CatUpdateManyMutationInput> = z.strictObject({
+  id: z.union([z.cuid(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
+  name: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
+  age: z.union([z.number().int(), z.lazy(() => IntFieldUpdateOperationsInputSchema)]).optional(),
+  createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)]).optional(),
+  updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)]).optional(),
+});
 
-export const CatUncheckedUpdateManyInputSchema: z.ZodType<Prisma.CatUncheckedUpdateManyInput> =
-  z.strictObject({
-    id: z.union([z.cuid(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
-    name: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
-    age: z.union([z.number().int(), z.lazy(() => IntFieldUpdateOperationsInputSchema)]).optional(),
-    createdAt: z
-      .union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)])
-      .optional(),
-    updatedAt: z
-      .union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)])
-      .optional(),
-  });
+export const CatUncheckedUpdateManyInputSchema: z.ZodType<Prisma.CatUncheckedUpdateManyInput> = z.strictObject({
+  id: z.union([z.cuid(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
+  name: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputSchema)]).optional(),
+  age: z.union([z.number().int(), z.lazy(() => IntFieldUpdateOperationsInputSchema)]).optional(),
+  createdAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)]).optional(),
+  updatedAt: z.union([z.coerce.date(), z.lazy(() => DateTimeFieldUpdateOperationsInputSchema)]).optional(),
+});
 
 export const StringFilterSchema: z.ZodType<Prisma.StringFilter> = z.strictObject({
   equals: z.string().optional(),
@@ -267,109 +233,98 @@ export const DateTimeFilterSchema: z.ZodType<Prisma.DateTimeFilter> = z.strictOb
   not: z.union([z.coerce.date(), z.lazy(() => NestedDateTimeFilterSchema)]).optional(),
 });
 
-export const CatCountOrderByAggregateInputSchema: z.ZodType<Prisma.CatCountOrderByAggregateInput> =
-  z.strictObject({
-    id: z.lazy(() => SortOrderSchema).optional(),
-    name: z.lazy(() => SortOrderSchema).optional(),
-    age: z.lazy(() => SortOrderSchema).optional(),
-    createdAt: z.lazy(() => SortOrderSchema).optional(),
-    updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  });
+export const CatCountOrderByAggregateInputSchema: z.ZodType<Prisma.CatCountOrderByAggregateInput> = z.strictObject({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  age: z.lazy(() => SortOrderSchema).optional(),
+  createdAt: z.lazy(() => SortOrderSchema).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+});
 
-export const CatAvgOrderByAggregateInputSchema: z.ZodType<Prisma.CatAvgOrderByAggregateInput> =
-  z.strictObject({
-    age: z.lazy(() => SortOrderSchema).optional(),
-  });
+export const CatAvgOrderByAggregateInputSchema: z.ZodType<Prisma.CatAvgOrderByAggregateInput> = z.strictObject({
+  age: z.lazy(() => SortOrderSchema).optional(),
+});
 
-export const CatMaxOrderByAggregateInputSchema: z.ZodType<Prisma.CatMaxOrderByAggregateInput> =
-  z.strictObject({
-    id: z.lazy(() => SortOrderSchema).optional(),
-    name: z.lazy(() => SortOrderSchema).optional(),
-    age: z.lazy(() => SortOrderSchema).optional(),
-    createdAt: z.lazy(() => SortOrderSchema).optional(),
-    updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  });
+export const CatMaxOrderByAggregateInputSchema: z.ZodType<Prisma.CatMaxOrderByAggregateInput> = z.strictObject({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  age: z.lazy(() => SortOrderSchema).optional(),
+  createdAt: z.lazy(() => SortOrderSchema).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+});
 
-export const CatMinOrderByAggregateInputSchema: z.ZodType<Prisma.CatMinOrderByAggregateInput> =
-  z.strictObject({
-    id: z.lazy(() => SortOrderSchema).optional(),
-    name: z.lazy(() => SortOrderSchema).optional(),
-    age: z.lazy(() => SortOrderSchema).optional(),
-    createdAt: z.lazy(() => SortOrderSchema).optional(),
-    updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  });
+export const CatMinOrderByAggregateInputSchema: z.ZodType<Prisma.CatMinOrderByAggregateInput> = z.strictObject({
+  id: z.lazy(() => SortOrderSchema).optional(),
+  name: z.lazy(() => SortOrderSchema).optional(),
+  age: z.lazy(() => SortOrderSchema).optional(),
+  createdAt: z.lazy(() => SortOrderSchema).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
+});
 
-export const CatSumOrderByAggregateInputSchema: z.ZodType<Prisma.CatSumOrderByAggregateInput> =
-  z.strictObject({
-    age: z.lazy(() => SortOrderSchema).optional(),
-  });
+export const CatSumOrderByAggregateInputSchema: z.ZodType<Prisma.CatSumOrderByAggregateInput> = z.strictObject({
+  age: z.lazy(() => SortOrderSchema).optional(),
+});
 
-export const StringWithAggregatesFilterSchema: z.ZodType<Prisma.StringWithAggregatesFilter> =
-  z.strictObject({
-    equals: z.string().optional(),
-    in: z.string().array().optional(),
-    notIn: z.string().array().optional(),
-    lt: z.string().optional(),
-    lte: z.string().optional(),
-    gt: z.string().optional(),
-    gte: z.string().optional(),
-    contains: z.string().optional(),
-    startsWith: z.string().optional(),
-    endsWith: z.string().optional(),
-    mode: z.lazy(() => QueryModeSchema).optional(),
-    not: z.union([z.string(), z.lazy(() => NestedStringWithAggregatesFilterSchema)]).optional(),
-    _count: z.lazy(() => NestedIntFilterSchema).optional(),
-    _min: z.lazy(() => NestedStringFilterSchema).optional(),
-    _max: z.lazy(() => NestedStringFilterSchema).optional(),
-  });
+export const StringWithAggregatesFilterSchema: z.ZodType<Prisma.StringWithAggregatesFilter> = z.strictObject({
+  equals: z.string().optional(),
+  in: z.string().array().optional(),
+  notIn: z.string().array().optional(),
+  lt: z.string().optional(),
+  lte: z.string().optional(),
+  gt: z.string().optional(),
+  gte: z.string().optional(),
+  contains: z.string().optional(),
+  startsWith: z.string().optional(),
+  endsWith: z.string().optional(),
+  mode: z.lazy(() => QueryModeSchema).optional(),
+  not: z.union([z.string(), z.lazy(() => NestedStringWithAggregatesFilterSchema)]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedStringFilterSchema).optional(),
+  _max: z.lazy(() => NestedStringFilterSchema).optional(),
+});
 
-export const IntWithAggregatesFilterSchema: z.ZodType<Prisma.IntWithAggregatesFilter> =
-  z.strictObject({
-    equals: z.number().optional(),
-    in: z.number().array().optional(),
-    notIn: z.number().array().optional(),
-    lt: z.number().optional(),
-    lte: z.number().optional(),
-    gt: z.number().optional(),
-    gte: z.number().optional(),
-    not: z.union([z.number(), z.lazy(() => NestedIntWithAggregatesFilterSchema)]).optional(),
-    _count: z.lazy(() => NestedIntFilterSchema).optional(),
-    _avg: z.lazy(() => NestedFloatFilterSchema).optional(),
-    _sum: z.lazy(() => NestedIntFilterSchema).optional(),
-    _min: z.lazy(() => NestedIntFilterSchema).optional(),
-    _max: z.lazy(() => NestedIntFilterSchema).optional(),
-  });
+export const IntWithAggregatesFilterSchema: z.ZodType<Prisma.IntWithAggregatesFilter> = z.strictObject({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([z.number(), z.lazy(() => NestedIntWithAggregatesFilterSchema)]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _avg: z.lazy(() => NestedFloatFilterSchema).optional(),
+  _sum: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedIntFilterSchema).optional(),
+  _max: z.lazy(() => NestedIntFilterSchema).optional(),
+});
 
-export const DateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.DateTimeWithAggregatesFilter> =
-  z.strictObject({
-    equals: z.coerce.date().optional(),
-    in: z.coerce.date().array().optional(),
-    notIn: z.coerce.date().array().optional(),
-    lt: z.coerce.date().optional(),
-    lte: z.coerce.date().optional(),
-    gt: z.coerce.date().optional(),
-    gte: z.coerce.date().optional(),
-    not: z
-      .union([z.coerce.date(), z.lazy(() => NestedDateTimeWithAggregatesFilterSchema)])
-      .optional(),
-    _count: z.lazy(() => NestedIntFilterSchema).optional(),
-    _min: z.lazy(() => NestedDateTimeFilterSchema).optional(),
-    _max: z.lazy(() => NestedDateTimeFilterSchema).optional(),
-  });
+export const DateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.DateTimeWithAggregatesFilter> = z.strictObject({
+  equals: z.coerce.date().optional(),
+  in: z.coerce.date().array().optional(),
+  notIn: z.coerce.date().array().optional(),
+  lt: z.coerce.date().optional(),
+  lte: z.coerce.date().optional(),
+  gt: z.coerce.date().optional(),
+  gte: z.coerce.date().optional(),
+  not: z.union([z.coerce.date(), z.lazy(() => NestedDateTimeWithAggregatesFilterSchema)]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedDateTimeFilterSchema).optional(),
+  _max: z.lazy(() => NestedDateTimeFilterSchema).optional(),
+});
 
 export const StringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.StringFieldUpdateOperationsInput> =
   z.strictObject({
     set: z.string().optional(),
   });
 
-export const IntFieldUpdateOperationsInputSchema: z.ZodType<Prisma.IntFieldUpdateOperationsInput> =
-  z.strictObject({
-    set: z.number().optional(),
-    increment: z.number().optional(),
-    decrement: z.number().optional(),
-    multiply: z.number().optional(),
-    divide: z.number().optional(),
-  });
+export const IntFieldUpdateOperationsInputSchema: z.ZodType<Prisma.IntFieldUpdateOperationsInput> = z.strictObject({
+  set: z.number().optional(),
+  increment: z.number().optional(),
+  decrement: z.number().optional(),
+  multiply: z.number().optional(),
+  divide: z.number().optional(),
+});
 
 export const DateTimeFieldUpdateOperationsInputSchema: z.ZodType<Prisma.DateTimeFieldUpdateOperationsInput> =
   z.strictObject({
@@ -430,22 +385,21 @@ export const NestedStringWithAggregatesFilterSchema: z.ZodType<Prisma.NestedStri
     _max: z.lazy(() => NestedStringFilterSchema).optional(),
   });
 
-export const NestedIntWithAggregatesFilterSchema: z.ZodType<Prisma.NestedIntWithAggregatesFilter> =
-  z.strictObject({
-    equals: z.number().optional(),
-    in: z.number().array().optional(),
-    notIn: z.number().array().optional(),
-    lt: z.number().optional(),
-    lte: z.number().optional(),
-    gt: z.number().optional(),
-    gte: z.number().optional(),
-    not: z.union([z.number(), z.lazy(() => NestedIntWithAggregatesFilterSchema)]).optional(),
-    _count: z.lazy(() => NestedIntFilterSchema).optional(),
-    _avg: z.lazy(() => NestedFloatFilterSchema).optional(),
-    _sum: z.lazy(() => NestedIntFilterSchema).optional(),
-    _min: z.lazy(() => NestedIntFilterSchema).optional(),
-    _max: z.lazy(() => NestedIntFilterSchema).optional(),
-  });
+export const NestedIntWithAggregatesFilterSchema: z.ZodType<Prisma.NestedIntWithAggregatesFilter> = z.strictObject({
+  equals: z.number().optional(),
+  in: z.number().array().optional(),
+  notIn: z.number().array().optional(),
+  lt: z.number().optional(),
+  lte: z.number().optional(),
+  gt: z.number().optional(),
+  gte: z.number().optional(),
+  not: z.union([z.number(), z.lazy(() => NestedIntWithAggregatesFilterSchema)]).optional(),
+  _count: z.lazy(() => NestedIntFilterSchema).optional(),
+  _avg: z.lazy(() => NestedFloatFilterSchema).optional(),
+  _sum: z.lazy(() => NestedIntFilterSchema).optional(),
+  _min: z.lazy(() => NestedIntFilterSchema).optional(),
+  _max: z.lazy(() => NestedIntFilterSchema).optional(),
+});
 
 export const NestedFloatFilterSchema: z.ZodType<Prisma.NestedFloatFilter> = z.strictObject({
   equals: z.number().optional(),
@@ -467,9 +421,7 @@ export const NestedDateTimeWithAggregatesFilterSchema: z.ZodType<Prisma.NestedDa
     lte: z.coerce.date().optional(),
     gt: z.coerce.date().optional(),
     gte: z.coerce.date().optional(),
-    not: z
-      .union([z.coerce.date(), z.lazy(() => NestedDateTimeWithAggregatesFilterSchema)])
-      .optional(),
+    not: z.union([z.coerce.date(), z.lazy(() => NestedDateTimeWithAggregatesFilterSchema)]).optional(),
     _count: z.lazy(() => NestedIntFilterSchema).optional(),
     _min: z.lazy(() => NestedDateTimeFilterSchema).optional(),
     _max: z.lazy(() => NestedDateTimeFilterSchema).optional(),
@@ -483,9 +435,7 @@ export const CatFindFirstArgsSchema: z.ZodType<Prisma.CatFindFirstArgs> = z
   .object({
     select: CatSelectSchema.optional(),
     where: CatWhereInputSchema.optional(),
-    orderBy: z
-      .union([CatOrderByWithRelationInputSchema.array(), CatOrderByWithRelationInputSchema])
-      .optional(),
+    orderBy: z.union([CatOrderByWithRelationInputSchema.array(), CatOrderByWithRelationInputSchema]).optional(),
     cursor: CatWhereUniqueInputSchema.optional(),
     take: z.number().optional(),
     skip: z.number().optional(),
@@ -497,9 +447,7 @@ export const CatFindFirstOrThrowArgsSchema: z.ZodType<Prisma.CatFindFirstOrThrow
   .object({
     select: CatSelectSchema.optional(),
     where: CatWhereInputSchema.optional(),
-    orderBy: z
-      .union([CatOrderByWithRelationInputSchema.array(), CatOrderByWithRelationInputSchema])
-      .optional(),
+    orderBy: z.union([CatOrderByWithRelationInputSchema.array(), CatOrderByWithRelationInputSchema]).optional(),
     cursor: CatWhereUniqueInputSchema.optional(),
     take: z.number().optional(),
     skip: z.number().optional(),
@@ -511,9 +459,7 @@ export const CatFindManyArgsSchema: z.ZodType<Prisma.CatFindManyArgs> = z
   .object({
     select: CatSelectSchema.optional(),
     where: CatWhereInputSchema.optional(),
-    orderBy: z
-      .union([CatOrderByWithRelationInputSchema.array(), CatOrderByWithRelationInputSchema])
-      .optional(),
+    orderBy: z.union([CatOrderByWithRelationInputSchema.array(), CatOrderByWithRelationInputSchema]).optional(),
     cursor: CatWhereUniqueInputSchema.optional(),
     take: z.number().optional(),
     skip: z.number().optional(),
@@ -524,9 +470,7 @@ export const CatFindManyArgsSchema: z.ZodType<Prisma.CatFindManyArgs> = z
 export const CatAggregateArgsSchema: z.ZodType<Prisma.CatAggregateArgs> = z
   .object({
     where: CatWhereInputSchema.optional(),
-    orderBy: z
-      .union([CatOrderByWithRelationInputSchema.array(), CatOrderByWithRelationInputSchema])
-      .optional(),
+    orderBy: z.union([CatOrderByWithRelationInputSchema.array(), CatOrderByWithRelationInputSchema]).optional(),
     cursor: CatWhereUniqueInputSchema.optional(),
     take: z.number().optional(),
     skip: z.number().optional(),
@@ -536,9 +480,7 @@ export const CatAggregateArgsSchema: z.ZodType<Prisma.CatAggregateArgs> = z
 export const CatGroupByArgsSchema: z.ZodType<Prisma.CatGroupByArgs> = z
   .object({
     where: CatWhereInputSchema.optional(),
-    orderBy: z
-      .union([CatOrderByWithAggregationInputSchema.array(), CatOrderByWithAggregationInputSchema])
-      .optional(),
+    orderBy: z.union([CatOrderByWithAggregationInputSchema.array(), CatOrderByWithAggregationInputSchema]).optional(),
     by: CatScalarFieldEnumSchema.array(),
     having: CatScalarWhereWithAggregatesInputSchema.optional(),
     take: z.number().optional(),
