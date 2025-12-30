@@ -15,11 +15,20 @@ model Cat {
   updatedAt DateTime @updatedAt
 }
 
+model Todo {
+  id        String  @id @default(cuid())
+  title     String
+  completed Boolean @default(false)
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
   username  String
   password  String
+  todos     Todo[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
