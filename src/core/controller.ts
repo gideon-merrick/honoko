@@ -3,7 +3,7 @@ import { type Context, Hono } from "hono";
 import { createMiddleware } from "hono/factory";
 import { sign, verify } from "hono/jwt";
 import type { JWTPayload } from "hono/utils/jwt/types";
-import { z } from "zod";
+import type { z } from "zod";
 import type { AppVariables, UserPayload } from "../types";
 
 export abstract class Controller {
@@ -21,7 +21,12 @@ export abstract class Controller {
   protected createValidator<T extends z.ZodType>(schema: T) {
     return zValidator("json", schema, (result, c) => {
       if (!result.success) {
-        const errors = z.flattenError(result.error).fieldErrors;
+        const errors: Record<string, string[]> = {};
+        result.error.issues.forEach((issue) => {
+          const path = issue.path.join(".") || "root";
+          if (!errors[path]) errors[path] = [];
+          errors[path].push(issue.message);
+        });
         return c.json({ success: false, errors: errors }, 401);
       }
     });
