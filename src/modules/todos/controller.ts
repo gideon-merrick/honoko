@@ -1,11 +1,10 @@
 import { z } from "zod";
-import { Controller } from "../../core/controller";
+import { GuardedHonokoController } from "../../core/guarded-controller";
 import { TodosService } from "./service";
 
-export class TodosController extends Controller {
+export class TodosController extends GuardedHonokoController {
   public path = "/todos";
   private service = new TodosService();
-  private middleware = this.createAuthMiddleware();
 
   public schemas = {
     create: z.object({
@@ -19,40 +18,34 @@ export class TodosController extends Controller {
   };
 
   public mount() {
-    this.router.get("/", this.middleware, async (c) => {
-      const currentUser = c.get("user");
-      const result = await this.service.getAllFromUser(currentUser.id);
+    this.router.get("/", async (c) => {
+      const result = await this.service.getAllFromUser(this.currentUser(c).id);
       return this.ok(c, result);
     });
-    this.router.get("/:id", this.middleware, async (c) => {
+    this.router.get("/:id", async (c) => {
       const id = c.req.param("id");
-      const currentUser = c.get("user");
-      const result = await this.service.getOneFromUser(id, currentUser.id);
+      const result = await this.service.getOneFromUser(id, this.currentUser(c).id);
       return this.ok(c, result);
     });
-    this.router.post("/", this.middleware, this.createValidator(this.schemas.create), async (c) => {
+    this.router.post("/", this.validateUsing(this.schemas.create), async (c) => {
       const data = c.req.valid("json");
-      const currentUser = c.get("user");
-      const result = await this.service.makeOne({ ...data, userId: currentUser.id });
+      const result = await this.service.makeOne({ ...data, userId: this.currentUser(c).id });
       return this.ok(c, result);
     });
-    this.router.patch("/:id", this.middleware, this.createValidator(this.schemas.update), async (c) => {
+    this.router.patch("/:id", this.validateUsing(this.schemas.update), async (c) => {
       const id = c.req.param("id");
       const data = c.req.valid("json");
-      const currentUser = c.get("user");
-      const result = this.service.updateOneFromUser(id, currentUser.id, data);
+      const result = this.service.updateOneFromUser(id, this.currentUser(c).id, data);
       return this.ok(c, result);
     });
-    this.router.delete("/:id", this.middleware, async (c) => {
+    this.router.delete("/:id", async (c) => {
       const id = c.req.param("id");
-      const currentUser = c.get("user");
-      const result = this.service.deleteOneFromUser(id, currentUser.id);
+      const result = this.service.deleteOneFromUser(id, this.currentUser(c).id);
       return this.ok(c, result);
     });
-    this.router.get("/toggle/:id", this.middleware, async (c) => {
+    this.router.get("/toggle/:id", async (c) => {
       const id = c.req.param("id");
-      const currentUser = c.get("user");
-      const result = this.service.toggleOneFromUser(id, currentUser.id);
+      const result = this.service.toggleOneFromUser(id, this.currentUser(c).id);
       return this.ok(c, result);
     });
   }

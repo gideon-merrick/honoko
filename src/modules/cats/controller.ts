@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { Controller } from "../../core/controller";
+import { AbstractController } from "../../core/controller";
 import { CatsService } from "./service";
 
-export class CatsController extends Controller {
+export class CatsController extends AbstractController {
   public path = "/cats";
   private service = new CatsService();
   private authMiddleware = this.createAuthMiddleware();

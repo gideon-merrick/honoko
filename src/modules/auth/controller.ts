@@ -1,8 +1,9 @@
-import z from "zod";
-import { Controller } from "../../core/controller";
+import { z } from "zod";
+import { AuthHonokoController } from "../../core/auth-controller";
+import type { CurrentUser } from "../../types";
 import { AuthService } from "./service";
 
-export class AuthController extends Controller {
+export class AuthController extends AuthHonokoController {
   public path = "/auth";
   private service = new AuthService();
   private authMiddleware = this.createAuthMiddleware();
@@ -20,41 +21,40 @@ export class AuthController extends Controller {
   };
 
   public mount() {
-    this.router.post("/login", this.createValidator(this.schemas.login), async (c) => {
-      const { email, password } = c.req.valid("json");
-      const user = await this.service.getWithEmail(email);
-      if (!user) return this.fail(c, { email: ["User with email not found"] });
-      const isValidPassword = await Bun.password.verify(password, user.password);
-      if (!isValidPassword) return this.fail(c, { password: ["Incorrect password"] });
-      const token = await this.generateToken({
-        userId: user.id,
+    // POST /auth/login -> login route
+    this.router.post("/login", this.validateUsing(this.schemas.login), async (c) => {
+      const { email, password } = c.req.valid("json"); // get the request body
+      const user = await this.service.getWithEmail(email); // find the corresponding user
+      if (!user) return this.fail(c, { email: ["User not found"] }); // throw if user is not found
+      const isValid = await Bun.password.verify(password, user.password); // check password
+      if (!isValid) return this.fail(c, { password: ["Incorrect password"] }); // throw if password is incorrect
+      // generate the token for the logged in user
+      const token = await this.generateToken<CurrentUser>({
+        id: user.id,
+        username: user.username,
         email: user.email,
-        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
       });
-      return this.ok(c, {
-        token,
-        user: { id: user.id, email: user.email },
-      });
+      return this.ok(c, { token }); // return the token
     });
-    this.router.post("/register", this.createValidator(this.schemas.register), async (c) => {
-      const { username, email, password } = c.req.valid("json");
-      const existingUser = await this.service.getWithEmail(email);
-      if (existingUser) return this.fail(c, { email: ["Email already in use"] });
-      const hashedPassword = await Bun.password.hash(password);
-      const user = await this.service.makeOne({ username, email, password: hashedPassword });
-      const token = await this.generateToken({
-        userId: user.id,
+    // POST /auth/register -> register route
+    this.router.post("/register", this.validateUsing(this.schemas.register), async (c) => {
+      const { username, email, password } = c.req.valid("json"); // get the request body
+      const existingUser = await this.service.getWithEmail(email); // look if email is already taken
+      if (existingUser) return this.fail(c, { email: ["Email already in use"] }); // throw if email is taken
+      const hashedPassword = await Bun.password.hash(password); // hash the password
+      const user = await this.service.makeOne({ username, email, password: hashedPassword }); // create the user
+      // generate the token for the new user
+      const token = await this.generateToken<CurrentUser>({
+        id: user.id,
         email: user.email,
-        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
+        username: user.username,
       });
-      return this.ok(c, {
-        token,
-        user: { id: user.id, username: user.username, email: user.email },
-      });
+      return this.ok(c, { token });
     });
+    // GET /auth/me -> fetch current user information
     this.router.get("/me", this.authMiddleware, async (c) => {
-      const user = c.get("user");
-      return this.ok(c, user);
+      const currentUser = c.get("currentUser"); // get the current user from the context
+      return this.ok(c, currentUser); // return the current user
     });
   }
 }
