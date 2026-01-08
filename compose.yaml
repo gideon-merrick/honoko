@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:17-alpine
-    container_name: hono-mvc-postgres-database
+    container_name: honoko-db
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
