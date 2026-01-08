@@ -1,12 +1,12 @@
 import { z } from "zod";
-import { AuthHonokoController } from "../../core/auth-controller";
+import { AbstractController } from "../../core/controller";
 import type { CurrentUser } from "../../types";
 import { AuthService } from "./service";
 
-export class AuthController extends AuthHonokoController {
+export class AuthController extends AbstractController {
   public path = "/auth";
   private service = new AuthService();
-  private authMiddleware = this.createAuthMiddleware();
+  private middleware = this.createAuthMiddleware();
 
   public schemas = {
     login: z.object({
@@ -52,7 +52,7 @@ export class AuthController extends AuthHonokoController {
       return this.ok(c, { token });
     });
     // GET /auth/me -> fetch current user information
-    this.router.get("/me", this.authMiddleware, async (c) => {
+    this.router.get("/me", this.middleware, async (c) => {
       const currentUser = c.get("currentUser"); // get the current user from the context
       return this.ok(c, currentUser); // return the current user
     });

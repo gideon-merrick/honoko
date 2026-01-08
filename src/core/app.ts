@@ -8,15 +8,26 @@ export class App {
   constructor(controllers: AbstractController[]) {
     this.instance = new Hono();
     this.instance.use(logger());
-    this.setupErrors();
+    this.setupError();
+    this.setupNotFound();
     this.mount(controllers);
   }
 
-  private setupErrors() {
+  private setupError() {
     this.instance.onError((error, c) => {
+      console.error(error);
       return c.json({
         success: false,
-        errors: { server: error.message || "Internal server error" },
+        errors: { server: ["Internal server error"] },
+      });
+    });
+  }
+
+  private setupNotFound() {
+    this.instance.notFound((c) => {
+      return c.json({
+        success: false,
+        errors: { server: ["Route not found"] },
       });
     });
   }

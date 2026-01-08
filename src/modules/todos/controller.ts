@@ -1,10 +1,11 @@
 import { z } from "zod";
-import { GuardedHonokoController } from "../../core/guarded-controller";
+import { AbstractController } from "../../core/controller";
 import { TodosService } from "./service";
 
-export class TodosController extends GuardedHonokoController {
+export class TodosController extends AbstractController {
   public path = "/todos";
   private service = new TodosService();
+  private middleware = this.createAuthMiddleware();
 
   public schemas = {
     create: z.object({
@@ -18,32 +19,32 @@ export class TodosController extends GuardedHonokoController {
   };
 
   public mount() {
-    this.router.get("/", async (c) => {
+    this.router.get("/", this.middleware, async (c) => {
       const result = await this.service.getAllFromUser(this.currentUser(c).id);
       return this.ok(c, result);
     });
-    this.router.get("/:id", async (c) => {
+    this.router.get("/:id", this.middleware, async (c) => {
       const id = c.req.param("id");
       const result = await this.service.getOneFromUser(id, this.currentUser(c).id);
       return this.ok(c, result);
     });
-    this.router.post("/", this.validateUsing(this.schemas.create), async (c) => {
+    this.router.post("/", this.middleware, this.validateUsing(this.schemas.create), async (c) => {
       const data = c.req.valid("json");
       const result = await this.service.makeOne({ ...data, userId: this.currentUser(c).id });
       return this.ok(c, result);
     });
-    this.router.patch("/:id", this.validateUsing(this.schemas.update), async (c) => {
+    this.router.patch("/:id", this.middleware, this.validateUsing(this.schemas.update), async (c) => {
       const id = c.req.param("id");
       const data = c.req.valid("json");
       const result = this.service.updateOneFromUser(id, this.currentUser(c).id, data);
       return this.ok(c, result);
     });
-    this.router.delete("/:id", async (c) => {
+    this.router.delete("/:id", this.middleware, async (c) => {
       const id = c.req.param("id");
       const result = this.service.deleteOneFromUser(id, this.currentUser(c).id);
       return this.ok(c, result);
     });
-    this.router.get("/toggle/:id", async (c) => {
+    this.router.get("/toggle/:id", this.middleware, async (c) => {
       const id = c.req.param("id");
       const result = this.service.toggleOneFromUser(id, this.currentUser(c).id);
       return this.ok(c, result);

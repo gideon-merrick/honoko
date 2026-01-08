@@ -5,7 +5,6 @@ import { CatsService } from "./service";
 export class CatsController extends AbstractController {
   public path = "/cats";
   private service = new CatsService();
-  private authMiddleware = this.createAuthMiddleware();
 
   public schemas = {
     create: z.object({
@@ -23,17 +22,17 @@ export class CatsController extends AbstractController {
       const result = await this.service.getAll();
       return this.ok(c, result);
     });
-    this.router.get("/:id", this.authMiddleware, async (c) => {
+    this.router.get("/:id", async (c) => {
       const id = c.req.param("id");
       const result = await this.service.getOne(id);
       return this.ok(c, result);
     });
-    this.router.post("/", this.createValidator(this.schemas.create), async (c) => {
+    this.router.post("/", this.validateUsing(this.schemas.create), async (c) => {
       const data = c.req.valid("json");
       const result = await this.service.makeOne(data);
       return this.ok(c, result);
     });
-    this.router.patch("/:id", this.createValidator(this.schemas.update), async (c) => {
+    this.router.patch("/:id", this.validateUsing(this.schemas.update), async (c) => {
       const id = c.req.param("id");
       const data = c.req.valid("json");
       const result = await this.service.updateOne(id, data);
