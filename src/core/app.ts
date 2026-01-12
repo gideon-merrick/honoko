@@ -1,3 +1,4 @@
+import { serve } from "bun";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import type { AbstractController } from "./controller";
@@ -36,6 +37,13 @@ export class App {
     controllers.forEach((controller) => {
       controller.mount();
       this.instance.route(controller.path, controller.router);
+    });
+  }
+
+  public listen(port: number) {
+    serve({
+      port: port || 3000,
+      fetch: this.instance.fetch,
     });
   }
 }
