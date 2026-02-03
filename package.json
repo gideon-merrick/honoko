@@ -1,22 +1,29 @@
 {
-  "name": "hono-mvc",
-  "scripts": {
-    "dev": "bun run --hot src/app.ts"
-  },
-  "dependencies": {
-    "@biomejs/biome": "^2.3.10",
-    "@hono/zod-validator": "^0.7.6",
-    "@prisma/adapter-pg": "^7.2.0",
-    "@prisma/client": "^7.2.0",
-    "@types/node": "^25.0.3",
-    "@types/pg": "^8.16.0",
-    "dotenv": "^17.2.3",
-    "hono": "^4.11.1",
-    "pg": "^8.16.3",
-    "prisma": "^7.2.0",
-    "zod": "^4.2.1"
-  },
-  "devDependencies": {
-    "@types/bun": "latest"
-  }
+	"name": "honoko",
+	"type": "module",
+	"scripts": {
+		"dev": "tsx watch src/index.ts",
+		"build": "tsc",
+		"start": "node dist/index.js",
+		"lint": "biome check"
+	},
+	"dependencies": {
+		"@hono/node-server": "^1.19.9",
+		"@hono/zod-validator": "^0.7.6",
+		"@prisma/adapter-pg": "^7.3.0",
+		"@prisma/client": "^7.3.0",
+		"better-auth": "^1.4.18",
+		"dotenv": "^17.2.3",
+		"hono": "^4.11.7",
+		"pg": "^8.18.0",
+		"zod": "^4.3.6"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.14",
+		"@types/node": "^20.11.17",
+		"@types/pg": "^8.16.0",
+		"prisma": "^7.3.0",
+		"tsx": "^4.7.1",
+		"typescript": "^5.8.3"
+	}
 }

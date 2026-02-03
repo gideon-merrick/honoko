@@ -2,3 +2,4 @@ node_modules/
 prisma/generated/
 .vscode/
 .zed/
+.env

@@ -1,10 +1,6 @@
-import { Honoko } from "./core/honoko";
-import { AuthController } from "./modules/auth/controller";
-import { TodosController } from "./modules/todos/controller";
+import { Honoko } from "./core/honoko.js";
+import { AuthController } from "./modules/auth/controller.js";
 
-const app = new Honoko([
-  new TodosController(), // todos
-  new AuthController(), // auth
-]);
-
-app.listen(3000);
+export const app = new Honoko({
+	controllers: [new AuthController()],
+});

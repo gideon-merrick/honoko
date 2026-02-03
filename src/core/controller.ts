@@ -1,20 +1,21 @@
 import { zValidator } from "@hono/zod-validator";
 import { type Context, Hono } from "hono";
 import { createMiddleware } from "hono/factory";
-import { sign, verify } from "hono/jwt";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { z } from "zod";
-import type { AppVariables, CurrentUser } from "../types";
+import { auth } from "../lib/auth.js";
+import type { AppType } from "./app-variables.js";
 
 export abstract class AbstractController {
-  public router = new Hono<{ Variables: AppVariables }>();
+  public router = new Hono<AppType>();
   public abstract path: string;
 
-  protected ok(c: Context, data: unknown) {
-    return c.json({ success: true, data: data }, 200);
+  protected ok(c: Context, data: unknown, code: ContentfulStatusCode = 200) {
+    return c.json({ success: true, data: data }, code);
   }
 
-  protected fail(c: Context, fields: Record<string, string[]>) {
-    return c.json({ success: false, errors: fields }, 400);
+  protected fail(c: Context, fields: Record<string, string[]>, code: ContentfulStatusCode = 500) {
+    return c.json({ success: false, errors: fields }, code);
   }
 
   protected validateUsing<T extends z.ZodType>(schema: T) {
@@ -32,30 +33,18 @@ export abstract class AbstractController {
   }
 
   protected createAuthMiddleware() {
-    return createMiddleware<{ Variables: AppVariables }>(async (c, next) => {
-      const authHeader = c.req.header("Authorization");
-      if (!authHeader) return this.fail(c, { auth: ["Authorization header missing"] });
-      const token = authHeader.replace("Bearer ", "");
-      if (!token) return this.fail(c, { auth: ["Token missing"] });
-      try {
-        const payload = await verify(token, String(process.env.JWT_SECRET), { alg: "HS256" });
-        c.set("currentUser", payload as CurrentUser);
+    return createMiddleware(async (c, next) => {
+      const session = await auth.api.getSession({ headers: c.req.raw.headers });
+      if (!session) {
+        c.set("user", null);
+        c.set("session", null);
         await next();
-      } catch {
-        return this.fail(c, { auth: ["Invalid or expired token"] });
+        return;
       }
+      c.set("user", session.user);
+      c.set("session", session.session);
+      await next();
     });
-  }
-
-  protected currentUser(c: Context<{ Variables: AppVariables }>): CurrentUser {
-    return c.get("currentUser");
-  }
-
-  protected async generateToken<T>(payload: T) {
-    return await sign(
-      { ...payload, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7 },
-      String(process.env.JWT_SECRET),
-    );
   }
 
   public abstract mount(): void;

@@ -1,55 +1,61 @@
-import { serve } from "bun";
+import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
-import type { AbstractController } from "./controller";
+import type { AppType } from "./app-variables.js";
+import type { AbstractController } from "./controller.js";
+
+type HonokoOptions = {
+	controllers: AbstractController[];
+};
 
 export class Honoko {
-  public instance: Hono;
+	public instance: Hono<AppType>;
 
-  constructor(controllers: AbstractController[]) {
-    this.instance = new Hono();
-    this.instance.use(logger());
-    this.setupError();
-    this.setupNotFound();
-    this.mount(controllers);
-  }
+	constructor(options: HonokoOptions) {
+		this.instance = new Hono<AppType>().basePath("/api");
+		this.instance.use(logger());
+		this.setupError();
+		this.setupNotFound();
+		this.mount(options.controllers);
+	}
 
-  private setupError() {
-    this.instance.onError((error, c) => {
-      console.error(error);
-      return c.json(
-        {
-          success: false,
-          errors: { server: ["Internal server error"] },
-        },
-        500,
-      );
-    });
-  }
+	private setupError() {
+		this.instance.onError((error, c) => {
+			console.error(error);
+			return c.json(
+				{
+					success: false,
+					errors: { server: ["Internal server error"] },
+				},
+				500,
+			);
+		});
+	}
 
-  private setupNotFound() {
-    this.instance.notFound((c) => {
-      return c.json(
-        {
-          success: false,
-          errors: { server: ["Route not found"] },
-        },
-        404,
-      );
-    });
-  }
+	private setupNotFound() {
+		this.instance.notFound((c) => {
+			return c.json(
+				{
+					success: false,
+					errors: { server: ["Route not found"] },
+				},
+				404,
+			);
+		});
+	}
 
-  private mount(controllers: AbstractController[]) {
-    controllers.forEach((controller) => {
-      controller.mount();
-      this.instance.route(controller.path, controller.router);
-    });
-  }
+	private mount(controllers: AbstractController[]) {
+		controllers.forEach((controller) => {
+			controller.mount();
+			this.instance.route(controller.path, controller.router);
+		});
+	}
 
-  public listen(port: number) {
-    serve({
-      port: port || 3000,
-      fetch: this.instance.fetch,
-    });
-  }
+	public listen(port: number) {
+		serve({
+			port: port || 3000,
+			hostname: "0.0.0.0",
+			fetch: this.instance.fetch,
+		});
+	}
 }
