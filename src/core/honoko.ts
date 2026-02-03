@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { logger } from "hono/logger";
 import type { AbstractController } from "./controller";
 
-export class App {
+export class Honoko {
   public instance: Hono;
 
   constructor(controllers: AbstractController[]) {
@@ -17,19 +17,25 @@ export class App {
   private setupError() {
     this.instance.onError((error, c) => {
       console.error(error);
-      return c.json({
-        success: false,
-        errors: { server: ["Internal server error"] },
-      });
+      return c.json(
+        {
+          success: false,
+          errors: { server: ["Internal server error"] },
+        },
+        500,
+      );
     });
   }
 
   private setupNotFound() {
     this.instance.notFound((c) => {
-      return c.json({
-        success: false,
-        errors: { server: ["Route not found"] },
-      });
+      return c.json(
+        {
+          success: false,
+          errors: { server: ["Route not found"] },
+        },
+        404,
+      );
     });
   }
 

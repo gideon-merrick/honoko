@@ -38,7 +38,7 @@ export abstract class AbstractController {
       const token = authHeader.replace("Bearer ", "");
       if (!token) return this.fail(c, { auth: ["Token missing"] });
       try {
-        const payload = await verify(token, String(process.env.JWT_SECRET));
+        const payload = await verify(token, String(process.env.JWT_SECRET), { alg: "HS256" });
         c.set("currentUser", payload as CurrentUser);
         await next();
       } catch {

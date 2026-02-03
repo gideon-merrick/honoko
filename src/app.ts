@@ -1,8 +1,8 @@
-import { App } from "./core/app";
+import { Honoko } from "./core/honoko";
 import { AuthController } from "./modules/auth/controller";
 import { TodosController } from "./modules/todos/controller";
 
-const app = new App([
+const app = new Honoko([
   new TodosController(), // todos
   new AuthController(), // auth
 ]);
