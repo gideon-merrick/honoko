@@ -1,5 +1,5 @@
 import { zValidator } from "@hono/zod-validator";
-import { type Context, Hono, type ValidationTargets } from "hono";
+import { type Context, Hono } from "hono";
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { z } from "zod";
