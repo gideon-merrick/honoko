@@ -1,4 +1,5 @@
 import { serve } from "@hono/node-server";
+import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import type { AppType } from "./app-variables.js";
@@ -6,6 +7,10 @@ import type { AbstractController } from "./controller.js";
 
 type HonokoOptions = {
   controllers: AbstractController[];
+  static?: {
+    root: string;
+    rewrite?: boolean;
+  };
 };
 
 export class Honoko {
@@ -17,6 +22,7 @@ export class Honoko {
     this.setupError();
     this.setupNotFound();
     this.mount(options.controllers);
+    if (options.static) this.setupStatic(options.static);
   }
 
   private setupError() {
@@ -42,6 +48,13 @@ export class Honoko {
         404,
       );
     });
+  }
+
+  private setupStatic(staticOptions: { root: string; rewrite?: boolean }) {
+    this.instance.get("*", serveStatic({ root: staticOptions.root }));
+    if (staticOptions.rewrite)
+      this.instance.get("*", serveStatic({ path: "index.html", root: staticOptions.root }));
+    console.log(`[Static] serving files from ${staticOptions.root}`);
   }
 
   private mount(controllers: AbstractController[]) {
