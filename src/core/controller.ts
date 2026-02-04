@@ -1,5 +1,5 @@
 import { zValidator } from "@hono/zod-validator";
-import { type Context, Hono } from "hono";
+import { type Context, Hono, type ValidationTargets } from "hono";
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { z } from "zod";
@@ -18,8 +18,8 @@ export abstract class AbstractController {
     return c.json({ success: false, errors: fields }, code);
   }
 
-  protected validateUsing<T extends z.ZodType>(schema: T) {
-    return zValidator("json", schema, (result, c) => {
+  protected validate<T extends z.ZodType>(target: "json", schema: T) {
+    return zValidator(target, schema, (result, c) => {
       if (!result.success) {
         const errors: Record<string, string[]> = {};
         result.error.issues.forEach((issue) => {
