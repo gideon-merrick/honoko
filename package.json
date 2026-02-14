@@ -5,7 +5,14 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "lint": "biome check"
+    "biome:lint": "biome lint",
+    "biome:fix": "biome check --write",
+    "biome:format": "biome format --write",
+    "db:up": "docker compose up",
+    "db:down": "docker compose down",
+    "db:clean": "docker compose down -v",
+    "db:generate": "pnpm exec prisma generate",
+    "db:migrate": "pnpm exec prisma migrate dev"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.9",
