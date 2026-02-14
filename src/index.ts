@@ -1,3 +1,8 @@
+import { serve } from "@hono/node-server";
 import { app } from "./app.js";
 
-app.listen(3000);
+serve({
+  fetch: app.fetch,
+  hostname: "0.0.0.0",
+  port: 3000,
+});
